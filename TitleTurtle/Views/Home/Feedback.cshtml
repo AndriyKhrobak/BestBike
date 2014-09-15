@@ -1,0 +1,48 @@
+﻿@model TitleTurtle.Models.FeedbackModel
+@{
+    ViewBag.Title = "Feedback";
+}
+
+<div class="row">
+    <div class="col-md-12 col">
+        @Html.BeginForm("feedback", "home", FormMethod.Post, new { role = "form", @class = "form-horizontal" })
+        @{
+        <h1>Обратная связь</h1>
+
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Електронна почта</label>
+            <div class="col-md-3">
+                <input class="form-control" placeholder="Email" data-val="true" data-val-required="Введiтm адрес почти." id="Email" name="Email" type="email" value="">
+                @Html.ValidationMessageFor(model => model.Email, null, new { style = "color:red" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Тема Повiдомлення</label>
+            <div class="col-md-3">
+                <input data-val="true" style="margin:0 auto" class="form-control" placeholder="Тема" data-val-length="Поле Тема користувача неповинно мiстити менше, нiж 50 символiв." data-val-length-max="50" data-val-required="Потрiбне поле Тема користувача." id="MessageTopic" name="MessageTopic" type="text" value="">
+                @Html.ValidationMessageFor(model => model.MessageTopic, null, new { style = "color:red" })
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">Повiдомлення</label>
+            @Html.ValidationMessageFor(model => model.MessageText, null, new { style = "color:red" })
+            <div class="col-md-3">
+                <textarea class="form-control" style="margin:0 auto" placeholder="Message" data-val="true" data-val-length="Поле Сообщение неповинно мiстити менше, нiж 250 символiв." data-val-length-max="250" data-val-required="Потрiбне поле Повiдомлення." id="MessageText" name="MessageText"></textarea>
+            </div>
+        </div>
+        <div id="input_back">
+            <p>
+                <input type="submit" class="btn btn-primary" value="Вiдправити" />
+                <span id="sendingProgress" style="display: none">
+                    Чекайте, йде вiдправка повiдомлення...
+                    <img src='@Href("/Images/ajax_loader_big.gif")' alt="" />
+                </span>
+            </p>
+            <p id="target">
+        </div>
+        }
+        @section Scripts {
+            @Scripts.Render("~/bundles/jqueryval")
+        }
+    </div>
+</div>

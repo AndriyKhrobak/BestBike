@@ -1,0 +1,127 @@
+﻿@using System.Diagnostics.Eventing.Reader
+@using System.IdentityModel.Tokens
+@using PagedList.Mvc;
+@model TitleTurtle.Models.Main
+@{
+    ViewBag.Title = "Index";
+    Layout = "/Views/Shared/_Layout.cshtml";
+}
+@{
+    TempData["TempModel"] = Model;
+}
+@Html.AntiForgeryToken()
+@Html.ValidationSummary()
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+    <div class="row">
+        <div class="col-md-9 col" style="background-clip:content-box;">
+            <div id="head_article">
+                @if (User.IsInRole("Admin"))
+                {
+                    <div id="New_article">
+                        <p id="btn">
+                            <a href="/Home/CreateArticle">
+                                <img class="articl-bot1" title="Добавити новий велосипед" src="/Images/new-4.png" onmouseover="this.src = '/Images/new-3.png'" onmouseout="    this.src = '/Images/new-4.png'" alt="Добавити новий велосипед" />
+                            </a>
+                        </p>
+                    </div>
+                }
+                <div class="Article">
+                    Велосипеди
+                </div>
+
+            </div>
+            <div class="container">
+                <ul class="nav nav-pills" role="tablist">
+                    <li><a href="@Url.Action("Index", "Home", new { sort = "rating", categoryId = ViewBag.CategoryID })">Найкращi</a></li>
+                    <li><a href="@Url.Action("Index", "Home", new { sort = "date", categoryId = ViewBag.CategoryID })">Новi</a></li>
+                </ul>
+            </div>
+
+            @foreach (var item in Model.PagedList)
+            {
+                <div class="well well-sm">
+                    @Html.ActionLink(item.ArticleTitle, "ShowArticle", "Home", new { id = item.ArticleID }, new { style = "margin: 0; padding-right: 80px; line-height: 15px; color: black" })
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="float-right">
+                            <a href="@Url.Action("DeleteArticle", "Home", new { id = item.ArticleID })" onclick="return confirm('Ви впевненi, що хочите видалити велосипед?') ? true : false;">
+                                <img class="articl-bot" title="Видалити велосипед" src="~/Images/del.png" onmouseover="this.src = 'Images/del-2.png'" onmouseout="    this.src = 'Images/del.png'" alt="Видалити велосипед" />
+                            </a>
+                            <a href="@Url.Action("EditArticle", "Home", new { id = item.ArticleID })">
+                                <img class="articl-bot" title="Редагувати велосипед" src="~/Images/cor.png" onmouseover="this.src = 'Images/cor-2.png'" onmouseout="    this.src = 'Images/cor.png'" alt="Редагувати велосипед" />
+                            </a>
+                        </div>
+                    }
+                    
+                    <p style="color:@(item.Ratings.ElementAt(0).RatingLike - item.Ratings.ElementAt(0).RatingDislike < 0 ? "red" : "green"); margin:0; padding:0; line-height: 15px">Рейтинг: @(item.Ratings.ElementAt(0).RatingLike - item.Ratings.ElementAt(0).RatingDislike)</p>
+                    <p>
+                        @if (item.CommentCount == 0)
+                        {
+                            <b>Нема коментарiв</b>
+                        }
+                        else
+                        {
+                            <a href="@Url.Action("ShowArticle", "Home", new {id = item.ArticleID})#comments" style="color: black"><b>@item.CommentCount @((item.CommentCount % 100) / 10 != 1 ? item.CommentCount % 10 == 1 ? "коментар" : (item.CommentCount % 10 > 1 && item.CommentCount % 10 < 5) ? "коментар" : "коментарiв" : "коментарiв")</b></a>
+                        }
+                        Переглядiв: @item.Ratings.ElementAt(0).RatingView
+                    </p>
+                </div> <!--well-->
+            }
+            Страница @(Model.PagedList.PageCount < Model.PagedList.PageNumber ? 0 : Model.PagedList.PageNumber) из @Model.PagedList.PageCount
+
+
+            @Html.PagedListPager(Model.PagedList, page => Url.Action("Index", new { page, sort = ViewBag.Sort, categoryId = ViewBag.CategoryID }))
+            <!--container-->
+        </div> <!--col-md-3-->
+    <div class="col-md-3 col" style="background-clip: content-box;">
+        <div id="upkat">
+            <div id="gl_category">
+                <div id="img_category">
+                    <img src="~/Images/category.png" alt="" />
+                </div>
+                <div id="category">
+                    <span>Категорiї</span>
+                </div>
+            </div>
+            <div id="list-group">
+                <a href="@Url.Action("Index", "Home", new { sort = ViewBag.Sort})" class="list-group-item">Все</a>
+                @foreach (var category in Model.CategoryList)
+                {
+                    <a class="list-group-item" href="@Url.Action("Index", "Home", new {sort = ViewBag.Sort, categoryId = category.CategoryID  })">
+                        <h4>@category.CategoryName</h4>
+                        <p>@category.CategoryDescription</p>
+                    </a>
+
+                    if (User.IsInRole("Admin") && category.CategoryID != 1011)
+                    {
+                        <a title="Видалити категорiю @category.CategoryName" class="list-group-item btn btn-block btn-danger btn-sm" style="height: 5px; line-height: 4px" href="@Url.Action("RemoveCategory", "Home", new { id = category.CategoryID })">Видалити</a>
+                    }
+                }
+
+                @*Just for admin*@
+                @if (User.IsInRole("Admin"))
+                {
+                    using (Html.BeginForm("CreateCategory", "Home", new { }, FormMethod.Post, new { role = "form", @style = "background-color: white" }))
+                    {
+                        <div class="panel-body">
+                            <div class="form-group">
+                                @Html.TextBoxFor(model => model.NewCategory.CategoryName, new { @class = "form-control", placeholder = "Назва"})
+                                @Html.ValidationMessageFor(model => model.NewCategory.CategoryName)
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(model => model.NewCategory.CategoryDescription, new { @class = "form-control", placeholder = "Опис"})
+                                @Html.ValidationMessageFor(model => model.NewCategory.CategoryDescription)
+                            </div>
+                            <input type="submit" value="Нова категорiя" class="btn btn-primary btn-lg btn-block">
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,28 @@
+﻿@{
+    ViewBag.Title = "Feedback";
+}
+<div class="row">
+    <div class="col-md-12">
+        <h1>Вiдправити!</h1>
+        @if (String.IsNullOrEmpty(ViewBag.Error))
+        {
+            <div class="alert alert-success" role="alert">
+                <p>
+                    <strong>Ваше повiдомлення успiшно вiдправлено!</strong> Администрацiя сайту при необхiдностi обов'язково
+                    звяжеться з Вами.
+                </p>
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-danger" role="alert">
+                <p>
+                    <strong>Ваше повiдомлення не вiдправлено!</strong> @ViewBag.Error
+                </p>
+            </div>
+        }
+        
+        
+        <img src="/Images/tittle_turtle-01.svg" alt="" />
+    </div>
+</div>

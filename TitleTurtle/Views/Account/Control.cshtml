@@ -1,0 +1,36 @@
+﻿@model IEnumerable<TitleTurtle.Models.User>
+
+@{
+    ViewBag.Title = "Користувачi";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div id="MyArticle">
+            <img id="img_article" src="../Images/control.png" />
+            <div class="Article">Користувачi</div>
+        </div>
+        <p style="color: black; background-color:salmon">@ViewBag.Message</p>
+            @foreach (var item in Model)
+            {
+                <div class="well well-sm">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            @Html.ActionLink(item.Login,"ShowUser","Account", new {id = item.UserID}, new {title = item.FullName})
+                            @{
+                                var userRoles = Roles.GetRolesForUser(item.Login);
+                            }
+                        </div>
+                        <div class="col-sm-3">
+                            @(!userRoles.Contains("Author") ? Html.ActionLink("Зробити автором", "MakeAuthor", new { userName = item.Login }, new { @class = "btn btn-default" }) : Html.ActionLink("Видалити з авторiв", "RemoveFromAuthor", new { userName = item.Login }, new { @class = "btn btn-default" }))
+                        </div>
+                        <div class="col-sm-3">
+                            @(!userRoles.Contains("Admin") ? Html.ActionLink("Зробити адмiном", "MakeAdmin", new { userName = item.Login }, new { @class = "btn btn-default" }) : Html.ActionLink("Видалити2 из адмiнiстраторiв", "RemoveFromAdmins", new { userName = item.Login }, new { @class = "btn btn-default" }))
+                        </div>
+                        <div class="col-sm-3">
+                            @Html.ActionLink("Видалити", "DeleteUser", new { userName = item.Login }, new {@class = "btn btn-danger btn-sm" })
+                        </div>
+                    </div>
+                </div>
+            }
+    </div>
+</div>

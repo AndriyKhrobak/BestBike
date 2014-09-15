@@ -1,0 +1,83 @@
+﻿@model TitleTurtle.Models.SearchViewModel
+
+@{
+    ViewBag.Title = "ChooseBike";
+}
+
+<h2>ChooseBike</h2>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Article</legend>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Sex)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Sex)
+            @Html.ValidationMessageFor(model => model.Sex)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Hight)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Hight)
+            @Html.ValidationMessageFor(model => model.Hight)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Place)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Place)
+            @Html.ValidationMessageFor(model => model.Place)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Rama)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Rama)
+            @Html.ValidationMessageFor(model => model.Rama)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.MasaRovera)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.MasaRovera)
+            @Html.ValidationMessageFor(model => model.MasaRovera)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Amortizator)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Amortizator)
+            @Html.ValidationMessageFor(model => model.Amortizator)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Speeds)
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Speeds)
+            @Html.ValidationMessageFor(model => model.Speeds)
+        </div>
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,93 @@
+﻿@section Scripts {
+    <script src="~/Scripts/jquery.capslockstate.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(window).capslockstate();
+
+            $(window).bind("capsOn", function (event) {
+                if ($("#Password:focus").length > 0 || $("#ConfirmPassword:focus").length > 0) {
+                    $("#capsWarning").show();
+                }
+            });
+            $(window).bind("capsOff", function (event) {
+                $("#capsWarning").hide();
+            });
+            $(window).bind("capsUnknown", function (event) {
+                $("#capsWarning").hide();
+            });
+            $("#Password").bind("focusout", function (event) {
+                $("#capsWarning").hide();
+            });
+            $("#ConfirmPassword").bind("focusout", function (event) {
+                $("#capsWarning").hide();
+            });
+            $("#Password").bind("focusin", function (event) {
+                if ($(window).capslockstate("state") === true) {
+                    $("#capsWarning").show();
+                }
+            });
+            $("#ConfirmPassword").bind("focusin", function (event) {
+                if ($(window).capslockstate("state") === true) {
+                    $("#capsWarning").show();
+                }
+            });
+        });
+    </script>
+}
+@model TitleTurtle.Models.RegisterModel
+@{
+    ViewBag.Title = "Register";
+}
+<div class="row">
+    <div class="col-md-12 col">
+        <h1>Реєстрація</h1>
+        @if (!String.IsNullOrEmpty(ViewBag.Error))
+        {
+            <div class="alert alert-danger" role="alert">
+                <strong>Помилка!</strong>
+                @ViewBag.Error
+            </div>
+        }
+        <div class="col-md-4 col">
+            @using (Html.BeginForm())
+            {
+                <div>
+                    @Html.AntiForgeryToken()
+                    @*@Html.ValidationSummary()*@
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(x => x.UserFirstName, new { @class = "form-control", @placeholder = "Iм'я" })
+                    @Html.ValidationMessageFor(model => model.UserFirstName, null, new { style = "color:red" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(x => x.UserLastName, new { @class = "form-control", @placeholder = "Фамiлiя" })
+                    @Html.ValidationMessageFor(model => model.UserLastName, null, new { style = "color:red" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(x => x.ContactEmail, new { @class = "form-control", @placeholder = "Електронна почта" })
+                    @Html.ValidationMessageFor(model => model.ContactEmail, null, new { style = "color:red" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(x => x.UserName, new { @class = "form-control", @placeholder = "Логiн" })
+                    @Html.ValidationMessageFor(model => model.UserName, null, new { style = "color:red" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(x => x.Password, new { @class = "form-control", @placeholder = "Пароль", @type = "password" })
+                    @Html.ValidationMessageFor(model => model.Password, null, new { style = "color:red" })
+                </div>
+                <div class="form-group">
+                    @Html.TextBoxFor(x => x.ConfirmPassword, new { @class = "form-control", @placeholder = "Пiдтвердити пароль", @type = "password" })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, null, new { style = "color:red" })
+                </div>
+                <div id="capsWarning" style="display:none">Caps Lock включений!</div>
+                <div class="form-group">
+                    <p><img src="/Account/ShowCaptchaImage" /></p>
+                    <p>Введiть код з картинки:</p>
+                    <p>@Html.TextBox("CaptchaText")</p>
+                    <p style="color:red">@ViewBag.Message</p>
+                    <input type="submit" value="Далi" class="btn btn-primary" />
+                </div>
+            }
+        </div>
+    </div>
+</div>
