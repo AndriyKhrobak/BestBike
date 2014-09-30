@@ -1,0 +1,176 @@
+<html>
+<head>
+<style type="text/css">
+
+.leftimg {
+    float:left; /* Выравнивание по левому краю */
+    margin: 7px 7px 7px 0; /* Отступы вокруг картинки */
+    margin-right:20px;
+    margin-top:-20px;
+   }
+.rightimg {
+    float:right; /* Выравнивание по левому краю */
+    
+   }
+.seximg {
+	width:50px;
+	height:50px;
+	margin-right: 25px;
+	margin-left: 12px;
+	cursor: pointer;
+}
+#line {
+	width:250px;
+	height:3px;
+
+}
+
+
+@-webkit-keyframes pulse {
+  25% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+
+  75% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+
+@keyframes pulse {
+  25% {
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
+  }
+
+  75% {
+    -webkit-transform: scale(0.9);
+    transform: scale(0.9);
+  }
+}
+
+.pulse {
+  display: inline-block;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0);
+}
+.pulse:hover, .pulse:focus, .pulse:active {
+  -webkit-animation-name: pulse;
+  animation-name: pulse;
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-timing-function: linear;
+  animation-timing-function: linear;
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+}
+
+
+.seximg1 {
+	width:54px;
+	height:54px;
+	cursor: pointer;
+}
+#par1
+{
+
+width:500px;
+display: none;
+position:relative;
+margin-top: 100px;
+
+
+}
+#par2{
+  
+	width:500px;
+	position:relative;
+	display: none;
+  margin-top: 100px;
+  float:right;
+
+
+	
+}
+#par3{
+	width:70%;
+	position:relative;
+	display: none;
+	margin-top: 150px;
+	
+}
+#par4{
+	width:70%;
+	position:relative;
+	display: none;
+	margin-top: 50px;
+	
+}
+img {
+	width:150px;
+	height:150px;
+}
+</style>
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+<script type="text/javascript"> 
+$(document).ready(function(){
+//Поява  блоку і рух на центр
+$("#button1").click(function(){
+	$("#par1").fadeIn(1000);
+     $("#par1").animate({left:250},800);
+      
+   });
+   $("#imgm").click(function(){
+	$("#par2").fadeIn(1000);
+     $("#par2").animate({right:250},800);
+      
+   });
+   $("#imgw").click(function(){
+	$("#par2").fadeIn(1000);
+     $("#par2").animate({right:250},800);
+      
+   });
+   $("#par2").click(function(){
+	$("#par3").fadeIn(1000);
+     $("#par3").animate({left:80},500);
+      
+   });
+   $("#par3").click(function(){
+	$("#par4").fadeIn(1000);
+     $("#par4").animate({right:80},500);
+      
+   });
+
+});
+</script> 
+</head>
+<body>
+
+<input type="button" id="button1" value="Start choosing" />
+
+	  
+		<p  id="par1"><img src="./steplogo.png"  class="leftimg" />
+     		Виберіть вашу стать: <br><br>
+     			<img src="./man.png"  class="seximg pulse" id="imgm" />
+
+     			<img src="./woman.png"  class="seximg1 pulse" id="imgw" /><br><br>
+     			<img src="./line.png" id="line" />
+
+     </p>
+    <section>
+     <p  id="par2"><img src="./steplogo.png"  class="rightimg" />
+        Виберіть вашу стать: <br><br>
+          <img src="./man.png"  class="seximg pulse" id="imgm" />
+
+          <img src="./woman.png"  class="seximg1 pulse" id="imgw" /><br><br>
+          <img src="./line.png" id="line" />
+
+     </p>
+    </section>
+
+	
+	
+</body>
+</html>
